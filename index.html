@@ -1,0 +1,1917 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Re-Construyendo | Caso Júpiter</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --rojo: #D72B2B;
+      --rojo-oscuro: #A31F1F;
+      --amarillo: #F5C400;
+      --azul: #1B3F8B;
+      --azul-claro: #2455B8;
+      --negro: #0E0E0E;
+      --gris-oscuro: #1A1A1A;
+      --gris-medio: #2E2E2E;
+      --gris-texto: #888;
+      --blanco: #F8F6F1;
+      --blanco-puro: #ffffff;
+      --linea: rgba(255,255,255,0.08);
+      --verde: #32b450;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--negro);
+      color: var(--blanco);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ===== HEADER / NAVBAR ===== */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--negro);
+      border-bottom: 2px solid var(--rojo);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+
+    .logo-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .logo-box {
+      background: var(--rojo);
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      padding: 5px 10px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .logo-box span.dash { color: var(--amarillo); font-size: 1.1rem; line-height: 1; }
+    .logo-box span.text { color: #fff; }
+
+    .tag-investigacion {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--amarillo);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    nav { display: flex; align-items: center; gap: 0; }
+    nav a {
+      color: var(--gris-texto);
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      margin-left: 1.5rem;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--amarillo); }
+
+    .nav-hamburger {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--blanco);
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    @media (max-width: 600px) {
+      .tag-investigacion { display: none; }
+      .nav-links { display: none; flex-direction: column; position: absolute; top: 60px; left: 0; right: 0; background: var(--negro); border-bottom: 1px solid var(--linea); padding: 1rem 2rem; gap: 0.8rem; z-index: 99; }
+      .nav-links.open { display: flex; }
+      .nav-links a { margin-left: 0; font-size: 0.9rem; }
+      .nav-hamburger { display: block; }
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      padding: 5rem 2rem 4rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -120px;
+      width: 500px; height: 500px;
+      background: radial-gradient(ellipse, rgba(215,43,43,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .pill {
+      background: var(--rojo);
+      color: #fff;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 2px;
+    }
+
+    .pill-outline {
+      border: 1px solid var(--amarillo);
+      color: var(--amarillo);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 2px;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 6vw, 4.5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      max-width: 750px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 em { font-style: italic; color: var(--amarillo); }
+    .hero h1 .dots { color: var(--rojo); }
+
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--gris-texto);
+      letter-spacing: 0.1em;
+      border-top: 1px solid var(--linea);
+      padding-top: 1.2rem;
+      margin-top: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-meta span { color: var(--blanco); }
+
+    /* ===== INTRO BLOQUE ===== */
+    .intro-bloque {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 3rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    @media (max-width: 700px) { .intro-bloque { grid-template-columns: 1fr; } }
+
+    .intro-bloque p {
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: #ccc;
+    }
+
+    .intro-bloque p strong { color: var(--blanco); font-weight: 500; }
+
+    .pregunta-central {
+      background: var(--gris-oscuro);
+      border-left: 4px solid var(--amarillo);
+      padding: 1.5rem;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .pregunta-central h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--amarillo);
+      margin-bottom: 0.8rem;
+    }
+
+    .pregunta-central ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .pregunta-central li {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      color: #bbb;
+      padding-left: 1.2rem;
+      position: relative;
+    }
+
+    .pregunta-central li::before { content: '→'; position: absolute; left: 0; color: var(--rojo); }
+
+    /* ===== SECTION DIVIDER ===== */
+    .section-divider {
+      max-width: 1100px;
+      margin: 2rem auto 0;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .section-divider h2 {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gris-texto);
+      white-space: nowrap;
+    }
+
+    .section-divider .line { flex: 1; height: 1px; background: var(--linea); }
+
+    /* ===== EXPEDIENTE GAMIFICADO ===== */
+    .expediente-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 2rem 4rem;
+    }
+
+    .expediente-header-box {
+      border: 1px solid rgba(215,43,43,0.25);
+      border-radius: 6px;
+      padding: 1.8rem;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, rgba(215,43,43,0.05) 0%, rgba(245,196,0,0.03) 100%);
+      position: relative;
+    }
+
+    .exp-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--gris-texto);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+
+    .exp-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--blanco);
+      margin-bottom: 0.3rem;
+    }
+
+    .exp-subtitle {
+      font-size: 0.85rem;
+      color: var(--gris-texto);
+      line-height: 1.5;
+    }
+
+    .active-stamp {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      border: 2px solid var(--rojo);
+      padding: 4px 12px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--rojo);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 700;
+      transform: rotate(2deg);
+    }
+
+    .exp-meta {
+      margin-top: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .counter-text {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--gris-texto);
+      white-space: nowrap;
+    }
+
+    .counter-text span { color: var(--blanco); font-weight: 700; }
+
+    .progress-track { flex: 1; height: 3px; background: rgba(255,255,255,0.06); border-radius: 2px; }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--rojo);
+      border-radius: 2px;
+      transition: width 0.6s ease;
+    }
+
+    .phases-container { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1rem; }
+
+    .empty-state {
+      border: 1px dashed rgba(255,255,255,0.08);
+      padding: 3rem 1rem;
+      text-align: center;
+      color: var(--gris-texto);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      line-height: 1.8;
+      border-radius: 4px;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-12px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    .phase-card {
+      background: var(--gris-oscuro);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-left: 3px solid var(--gris-texto);
+      border-radius: 0 6px 6px 0;
+      padding: 1.25rem 1.5rem;
+      animation: slideIn 0.4s ease forwards;
+    }
+
+    .phase-card.warning { border-left-color: var(--amarillo); }
+    .phase-card.danger  { border-left-color: var(--rojo); }
+    .phase-card.neutral { border-left-color: var(--azul-claro); }
+    .phase-card.success { border-left-color: var(--verde); }
+
+    .phase-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .phase-time {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gris-texto);
+    }
+
+    .phase-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      padding: 2px 8px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 1px solid currentColor;
+      border-radius: 2px;
+    }
+
+    .phase-tag.warning { color: var(--amarillo); }
+    .phase-tag.danger  { color: var(--rojo); }
+    .phase-tag.neutral { color: #7aaaf5; }
+    .phase-tag.success { color: var(--verde); }
+
+    .phase-title {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--blanco);
+      margin-bottom: 2px;
+    }
+
+    .phase-subtitle {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--gris-texto);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.7rem;
+    }
+
+    .phase-content {
+      font-size: 0.88rem;
+      color: #bbb;
+      line-height: 1.75;
+    }
+
+    .reveal-btn {
+      display: block;
+      width: 100%;
+      margin-top: 1rem;
+      padding: 14px;
+      background: transparent;
+      border: 1px solid rgba(215,43,43,0.4);
+      color: #bbb;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+
+    .reveal-btn:hover:not(:disabled) {
+      border-color: var(--rojo);
+      color: var(--rojo);
+      background: rgba(215,43,43,0.04);
+    }
+
+    .reveal-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    .verdict-exp {
+      display: none;
+      margin-top: 1.2rem;
+      background: linear-gradient(135deg, rgba(215,43,43,0.08) 0%, rgba(245,196,0,0.04) 100%);
+      border: 1px solid rgba(215,43,43,0.3);
+      border-radius: 6px;
+      padding: 1.5rem;
+      animation: slideIn 0.45s ease forwards;
+    }
+
+    .verdict-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--rojo);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+
+    .verdict-exp-text {
+      font-size: 0.88rem;
+      color: #aaa;
+      line-height: 1.75;
+    }
+
+    /* ===== CONTACT FORM ===== */
+    .contact-form {
+      display: none;
+      margin-top: 1.5rem;
+      border: 1px solid var(--linea);
+      border-radius: 6px;
+      padding: 2rem;
+      background: var(--gris-oscuro);
+      animation: slideIn 0.5s ease forwards;
+    }
+
+    .form-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--gris-texto);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+
+    .form-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--blanco);
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+
+    .form-desc {
+      font-size: 0.85rem;
+      color: var(--gris-texto);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-divider { height: 1px; background: var(--linea); margin-bottom: 1.5rem; }
+
+    .field-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--gris-texto);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .field-input {
+      display: block;
+      width: 100%;
+      padding: 11px 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 3px;
+      color: var(--blanco);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.82rem;
+      margin-bottom: 1rem;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+
+    .field-input:focus { border-color: var(--amarillo); }
+    .field-input::placeholder { color: rgba(255,255,255,0.2); }
+
+    .or-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1rem;
+    }
+
+    .or-line { flex: 1; height: 1px; background: var(--linea); }
+
+    .or-text {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.1em;
+    }
+
+    .submit-btn {
+      display: block;
+      width: 100%;
+      padding: 13px;
+      background: var(--rojo);
+      border: none;
+      border-radius: 3px;
+      color: #fff;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .submit-btn:hover { background: var(--rojo-oscuro); }
+
+    .form-disclaimer {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      color: rgba(255,255,255,0.2);
+      margin-top: 10px;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    /* ===== SUCCESS STATE ===== */
+    .success-state {
+      display: none;
+      margin-top: 1.5rem;
+      border: 1px solid rgba(50,180,80,0.3);
+      border-radius: 6px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      background: rgba(50,180,80,0.05);
+      animation: slideIn 0.4s ease forwards;
+    }
+
+    .success-mark { font-size: 2rem; color: var(--verde); margin-bottom: 0.8rem; }
+
+    .success-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--verde);
+      margin-bottom: 0.5rem;
+    }
+
+    .success-msg {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--gris-texto);
+      line-height: 1.6;
+    }
+
+    /* ===== TIMELINE ===== */
+    .timeline-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 2rem 4rem;
+    }
+
+    .timeline-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .timeline-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .timeline-header p {
+      font-size: 0.9rem;
+      color: var(--gris-texto);
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.05em;
+    }
+
+    .timeline { position: relative; padding-left: 2rem; }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--rojo), var(--amarillo), var(--azul-claro));
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2.5rem;
+      padding-left: 2.5rem;
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: all 0.5s ease;
+    }
+
+    .timeline-item.visible { opacity: 1; transform: translateX(0); }
+
+    .timeline-dot {
+      position: absolute;
+      left: -2.6rem;
+      top: 0.3rem;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid;
+      background: var(--negro);
+    }
+
+    .dot-rojo   { border-color: var(--rojo);      box-shadow: 0 0 8px rgba(215,43,43,0.5); }
+    .dot-amarillo { border-color: var(--amarillo); box-shadow: 0 0 8px rgba(245,196,0,0.5); }
+    .dot-azul   { border-color: var(--azul-claro); box-shadow: 0 0 8px rgba(36,85,184,0.5); }
+    .dot-gris   { border-color: #555; }
+
+    .timeline-fecha {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--gris-texto);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .timeline-card {
+      background: var(--gris-oscuro);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 6px;
+      padding: 1.2rem 1.4rem;
+    }
+
+    .timeline-card h3 {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+      color: var(--blanco);
+    }
+
+    .timeline-card p { font-size: 0.86rem; line-height: 1.65; color: #aaa; }
+
+    .timeline-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.8rem; }
+
+    .tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 2px;
+    }
+
+    .tag-rojo    { background: rgba(215,43,43,0.15);  color: #f08080; border: 1px solid rgba(215,43,43,0.3); }
+    .tag-amarillo { background: rgba(245,196,0,0.12); color: var(--amarillo); border: 1px solid rgba(245,196,0,0.3); }
+    .tag-azul    { background: rgba(36,85,184,0.15);  color: #7aaaf5; border: 1px solid rgba(36,85,184,0.3); }
+    .tag-verde   { background: rgba(50,180,80,0.12);  color: #7ad095; border: 1px solid rgba(50,180,80,0.3); }
+
+    /* ===== CANALES GRID ===== */
+    .canales-section { max-width: 1100px; margin: 0 auto; padding: 2rem 2rem 4rem; }
+
+    .canales-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .canal-card {
+      background: var(--gris-oscuro);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 6px;
+      padding: 1.4rem;
+      text-align: center;
+      transition: border-color 0.3s;
+    }
+
+    .canal-card:hover { border-color: rgba(245,196,0,0.3); }
+
+    .canal-icon { font-size: 2rem; margin-bottom: 0.7rem; }
+    .canal-nombre { font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--blanco); }
+    .canal-tipo { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--gris-texto); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.8rem; }
+    .canal-bar-wrap { background: rgba(255,255,255,0.06); border-radius: 2px; height: 4px; overflow: hidden; }
+    .canal-bar { height: 100%; border-radius: 2px; transition: width 1.5s ease; }
+    .bar-rojo { background: var(--rojo); }
+    .bar-amarillo { background: var(--amarillo); }
+    .bar-azul { background: var(--azul-claro); }
+    .canal-pct { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--amarillo); margin-top: 0.5rem; }
+
+    /* ===== CUENTAS ===== */
+    .cuentas-section { max-width: 1100px; margin: 0 auto; padding: 2rem 2rem 4rem; }
+
+    .cuentas-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 700px) { .cuentas-grid { grid-template-columns: 1fr; } }
+
+    .cuenta-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .cuenta-info { flex: 1; }
+    .cuenta-nombre { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--blanco); margin-bottom: 3px; }
+    .cuenta-detalle { font-size: 0.72rem; color: var(--gris-texto); }
+    .cuenta-bar-wrap { width: 120px; background: rgba(255,255,255,0.05); border-radius: 2px; height: 6px; }
+    .cuenta-bar-fill { height: 100%; border-radius: 2px; transition: width 1.8s ease; }
+    .cuenta-num { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--amarillo); min-width: 60px; text-align: right; }
+
+    .cuentas-info-panel {
+      background: var(--gris-oscuro);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 6px;
+      padding: 1.8rem;
+    }
+
+    .cuentas-info-panel h3 { font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.95rem; margin-bottom: 1.2rem; color: var(--blanco); }
+
+    .stat-box { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.2rem; }
+
+    .stat-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px; padding: 1rem; text-align: center; }
+
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; color: var(--amarillo); display: block; }
+    .stat-label { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gris-texto); margin-top: 0.3rem; display: block; }
+    .nota-verificacion { font-size: 0.78rem; line-height: 1.6; color: #999; }
+    .nota-verificacion strong { color: var(--blanco); font-weight: 500; }
+
+    /* ===== COMUNICADOS ===== */
+    .comunicados-section { max-width: 1100px; margin: 0 auto; padding: 2rem 2rem 4rem; }
+
+    .comunicados-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .comunicado-card {
+      background: var(--gris-oscuro);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 6px;
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .comunicado-actor { font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.9rem; color: var(--blanco); }
+
+    .comunicado-estado {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .estado-dot { width: 7px; height: 7px; border-radius: 50%; }
+    .dot-negativo { background: var(--rojo); }
+    .dot-ambiguo  { background: var(--amarillo); }
+    .dot-positivo { background: var(--verde); }
+
+    .comunicado-desc { font-size: 0.8rem; line-height: 1.6; color: #999; }
+
+    /* ===== VERIFICACIÓN ===== */
+    .verificacion-section { max-width: 1100px; margin: 0 auto; padding: 2rem 2rem 4rem; }
+
+    .pasos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.2rem;
+      margin-top: 2rem;
+    }
+
+    .paso-card {
+      background: var(--gris-oscuro);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 6px;
+      padding: 1.6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .paso-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+    .paso-1::before { background: var(--rojo); }
+    .paso-2::before { background: var(--amarillo); }
+    .paso-3::before { background: var(--azul-claro); }
+    .paso-4::before { background: var(--verde); }
+
+    .paso-numero {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 900;
+      line-height: 1;
+      opacity: 0.08;
+      position: absolute;
+      top: 0.8rem; right: 1rem;
+    }
+
+    .paso-label { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gris-texto); margin-bottom: 0.6rem; }
+    .paso-card h3 { font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.95rem; margin-bottom: 0.7rem; color: var(--blanco); }
+    .paso-card p { font-size: 0.82rem; line-height: 1.65; color: #999; }
+
+    .herramientas { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+    .herramienta { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em; padding: 3px 8px; border-radius: 2px; background: rgba(255,255,255,0.05); color: #aaa; border: 1px solid rgba(255,255,255,0.1); }
+
+    /* ===== VEREDICTO ===== */
+    .veredicto-section { max-width: 1100px; margin: 0 auto 4rem; padding: 0 2rem; }
+
+    .veredicto-box {
+      background: linear-gradient(135deg, rgba(215,43,43,0.08) 0%, rgba(245,196,0,0.05) 100%);
+      border: 1px solid rgba(215,43,43,0.3);
+      border-radius: 8px;
+      padding: 2.5rem;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    @media (max-width: 600px) { .veredicto-box { grid-template-columns: 1fr; } }
+
+    .veredicto-badge {
+      background: var(--rojo);
+      color: #fff;
+      font-family: 'Playfair Display', serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      padding: 1rem 1.5rem;
+      text-align: center;
+      border-radius: 4px;
+      line-height: 1.3;
+    }
+
+    .veredicto-badge span { display: block; font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.3rem; opacity: 0.8; }
+
+    .veredicto-text h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .veredicto-text p { font-size: 0.88rem; line-height: 1.7; color: #aaa; }
+
+    .evidencias { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1rem; }
+    .evidencia { background: rgba(245,196,0,0.1); color: var(--amarillo); border: 1px solid rgba(245,196,0,0.25); font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; border-radius: 2px; }
+
+    /* ===== ARTÍCULO ===== */
+    .articulo-section {
+      background: var(--gris-oscuro);
+      border-top: 1px solid var(--linea);
+      border-bottom: 1px solid var(--linea);
+      padding: 5rem 2rem;
+      margin: 3rem 0;
+    }
+
+    .articulo-inner { max-width: 720px; margin: 0 auto; }
+
+    .articulo-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--rojo);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .articulo-eyebrow::after { content: ''; flex: 1; height: 1px; background: rgba(215,43,43,0.3); }
+
+    .articulo-inner h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 0.8rem;
+    }
+
+    .articulo-inner .bajada {
+      font-size: 1.05rem;
+      font-weight: 400;
+      color: #bbb;
+      line-height: 1.65;
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--linea);
+      font-style: italic;
+    }
+
+    .articulo-meta { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2.5rem; }
+
+    .avatar {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--rojo), var(--azul-claro));
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.75rem; color: #fff;
+    }
+
+    .articulo-meta-text { font-size: 0.8rem; }
+    .articulo-meta-text strong { display: block; color: var(--blanco); font-weight: 500; }
+    .articulo-meta-text span { color: var(--gris-texto); font-family: 'DM Mono', monospace; font-size: 0.68rem; }
+
+    .articulo-cuerpo p { font-size: 1rem; line-height: 1.85; color: #ccc; margin-bottom: 1.6rem; }
+
+    .articulo-cuerpo p:first-child::first-letter {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      font-weight: 900;
+      float: left;
+      line-height: 0.85;
+      margin-right: 0.12em;
+      margin-top: 0.08em;
+      color: var(--rojo);
+    }
+
+    .pull-quote {
+      border-left: 3px solid var(--amarillo);
+      padding: 1rem 1.5rem;
+      margin: 2rem 0;
+      background: rgba(245,196,0,0.04);
+    }
+
+    .pull-quote p {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.15rem !important;
+      color: var(--blanco) !important;
+      margin-bottom: 0 !important;
+    }
+
+    /* ===== GLOSARIO ===== */
+    .glosario-section { max-width: 1100px; margin: 0 auto; padding: 2rem 2rem 4rem; }
+
+    .glosario-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .glosario-item {
+      background: var(--gris-oscuro);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 6px;
+      padding: 1.4rem;
+      border-top: 2px solid var(--azul-claro);
+    }
+
+    .glosario-term {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--amarillo);
+      margin-bottom: 0.5rem;
+    }
+
+    .glosario-def {
+      font-size: 0.82rem;
+      line-height: 1.65;
+      color: #aaa;
+    }
+
+    /* ===== RECURSOS ===== */
+    .recursos-section { max-width: 1100px; margin: 0 auto; padding: 2rem 2rem 4rem; }
+
+    .recursos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .recurso-card {
+      background: var(--gris-oscuro);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 6px;
+      padding: 1.4rem;
+      transition: border-color 0.3s;
+      text-decoration: none;
+      display: block;
+    }
+
+    .recurso-card:hover { border-color: rgba(245,196,0,0.3); }
+
+    .recurso-tipo {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gris-texto);
+      margin-bottom: 0.5rem;
+    }
+
+    .recurso-nombre {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--blanco);
+      margin-bottom: 0.4rem;
+    }
+
+    .recurso-desc { font-size: 0.8rem; color: #888; line-height: 1.55; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      border-top: 2px solid var(--rojo);
+      padding: 2.5rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-marca { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--gris-texto); letter-spacing: 0.1em; }
+    .footer-marca strong { color: var(--blanco); font-weight: 500; }
+
+    .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .footer-links a { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--gris-texto); text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--amarillo); }
+
+    /* ===== WHATSAPP FAB ===== */
+    .whatsapp-fab {
+      position: fixed;
+      bottom: 2rem; right: 2rem;
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.5rem;
+    }
+
+    .whatsapp-tooltip {
+      background: var(--gris-oscuro);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--blanco);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      padding: 6px 14px;
+      border-radius: 20px;
+      white-space: nowrap;
+      opacity: 0;
+      transform: translateX(10px);
+      transition: all 0.25s;
+      pointer-events: none;
+    }
+
+    .whatsapp-fab:hover .whatsapp-tooltip { opacity: 1; transform: translateX(0); }
+
+    .whatsapp-btn {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: #25D366;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.35);
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .whatsapp-btn:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(37,211,102,0.5); }
+    .whatsapp-btn svg { width: 30px; height: 30px; fill: #fff; }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-up { animation: fadeInUp 0.7s ease both; }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.25s; }
+    .delay-3 { animation-delay: 0.4s; }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--negro); }
+    ::-webkit-scrollbar-thumb { background: var(--rojo); border-radius: 2px; }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <a class="logo-header" href="#">
+      <div class="logo-box">
+        <span class="text">RE</span><span class="dash">·</span><span class="text">CONSTRUYENDO</span>
+      </div>
+    </a>
+    <span class="tag-investigacion">Periodismo de verificación</span>
+    <nav>
+      <div class="nav-links" id="navLinks">
+        <a href="#expediente">Expediente</a>
+        <a href="#timeline">Cronología</a>
+        <a href="#verificacion">Verificación</a>
+        <a href="#glosario">Glosario</a>
+        <a href="#articulo">Artículo</a>
+      </div>
+      <button class="nav-hamburger" onclick="toggleMenu()" aria-label="Menú">☰</button>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero fade-up">
+    <div class="hero-eyebrow">
+      <span class="pill">Investigación especial</span>
+      <span class="pill-outline">Desinformación electoral</span>
+    </div>
+    <h1>
+      Reconstruyendo el<br/>
+      <em>caso Júpiter</em><span class="dots">...</span>
+    </h1>
+    <div class="hero-meta">
+      <span>¿Qué sabemos hasta el momento?</span>
+      <span style="color:var(--gris-texto)">•</span>
+      <span style="color:var(--gris-texto)">UNIDAD DE VERIFICACIÓN</span>
+      <span style="color:var(--gris-texto)">•</span>
+      <span style="color:var(--gris-texto)">MAYO 2026</span>
+    </div>
+  </section>
+
+  <!-- INTRO BLOQUE -->
+  <div class="intro-bloque fade-up delay-2">
+    <p>
+      Una serie de publicaciones de <strong>origen no verificado</strong> comenzaron a circular en plataformas digitales semanas antes de las elecciones. El material incluía videos de figuras reconocibles, cuentas coordinadas y narrativas diseñadas para alterar la percepción pública. Nuestro equipo inició una investigación sistemática para reconstruir el caso desde cero.
+    </p>
+    <div class="pregunta-central">
+      <h3>Las preguntas que guiaron nuestra investigación</h3>
+      <ul>
+        <li>¿Qué canales se utilizaron para difundir esta información?</li>
+        <li>¿Desde cuándo empezó a surgir este contenido?</li>
+        <li>¿Qué cuentas difundieron la información?</li>
+        <li>¿Alguno de los involucrados tiene comunicados oficiales?</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============================= -->
+  <!-- SECCIÓN: EXPEDIENTE INTERACTIVO -->
+  <!-- ============================= -->
+  <div class="section-divider" id="expediente">
+    <h2>00 — Expediente interactivo</h2>
+    <div class="line"></div>
+  </div>
+
+  <section class="expediente-section">
+    <div class="expediente-header-box">
+      <p class="exp-eyebrow">Exp. #2024-JUP-001 &nbsp;·&nbsp; Investigación activa</p>
+      <h2 class="exp-title">Proyecto Júpiter</h2>
+      <p class="exp-subtitle">Operación de influencia narrativa en procesos electorales.<br>Revela las pistas una a una y reconstruye el caso en tiempo real.</p>
+      <span class="active-stamp">Activo</span>
+      <div class="exp-meta">
+        <p class="counter-text">Pistas reveladas: <span id="counter">0</span>&nbsp;/&nbsp;6</p>
+        <div class="progress-track">
+          <div class="progress-fill" id="progress-bar"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phases-container" id="phases-container"></div>
+
+    <div class="empty-state" id="empty-state">
+      El expediente está sellado.<br>Pulsa el botón para comenzar la investigación.
+    </div>
+
+    <button class="reveal-btn" id="reveal-btn" onclick="revealNext()">
+      ▶ &nbsp; Revelar siguiente pista
+    </button>
+
+    <div class="verdict-exp" id="verdict-exp">
+      <p class="verdict-label">Conclusión — Expediente completo</p>
+      <p class="verdict-exp-text">El caso permanece abierto. No existe fuente verificable ni autoría confirmada del Proyecto Júpiter. El daño informativo ya está consumado: la agenda pública fue capturada en menos de 24 horas sin que ningún contenido fuera verificado.</p>
+    </div>
+
+    <!-- Formulario de contacto -->
+    <div class="contact-form" id="contact-form">
+      <p class="form-eyebrow">Fuente registrada — notificaciones</p>
+      <h2 class="form-title">¿Quieres saber cuándo haya<br>información nueva?</h2>
+      <p class="form-desc">Déjanos tu correo electrónico o número de teléfono. Te avisamos en cuanto el caso tenga novedades — sin spam, sin compartir tus datos.</p>
+      <div class="form-divider"></div>
+
+      <label class="field-label" for="field-email">Correo electrónico</label>
+      <input type="email" id="field-email" class="field-input" placeholder="tucorreo@ejemplo.com" autocomplete="email" />
+
+      <div class="or-row">
+        <span class="or-line"></span>
+        <span class="or-text">o</span>
+        <span class="or-line"></span>
+      </div>
+
+      <label class="field-label" for="field-phone">Número de teléfono / WhatsApp</label>
+      <input type="tel" id="field-phone" class="field-input" placeholder="+57 300 000 0000" autocomplete="tel" />
+
+      <button class="submit-btn" onclick="handleSubmit()">Registrar contacto</button>
+      <p class="form-disclaimer">
+        Tus datos no serán compartidos con terceros.<br>
+        Puedes cancelar la suscripción en cualquier momento.
+      </p>
+    </div>
+
+    <div class="success-state" id="success-state">
+      <div class="success-mark">✓</div>
+      <p class="success-title">Registro confirmado</p>
+      <p class="success-msg">Te avisaremos cuando haya información nueva<br>sobre el Proyecto Júpiter.</p>
+    </div>
+  </section>
+
+  <!-- SECCIÓN: CRONOLOGÍA -->
+  <div class="section-divider" id="timeline">
+    <h2>01 — Cronología del caso</h2>
+    <div class="line"></div>
+  </div>
+
+  <section class="timeline-section">
+    <div class="timeline-header">
+      <p>Reconstrucción cronológica · verificada por nuestro equipo</p>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot dot-rojo"></div>
+        <div class="timeline-fecha">Semana 1 — Origen</div>
+        <div class="timeline-card">
+          <h3>Aparecen las primeras publicaciones en redes</h3>
+          <p>Se identifican los primeros contenidos relacionados con el "caso Júpiter" en grupos de WhatsApp y cuentas de X (Twitter). El material no tiene fuente identificable y utiliza imágenes descontextualizadas de eventos anteriores.</p>
+          <div class="timeline-tags">
+            <span class="tag tag-rojo">WhatsApp</span>
+            <span class="tag tag-rojo">X / Twitter</span>
+            <span class="tag tag-amarillo">Sin fuente</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot dot-amarillo"></div>
+        <div class="timeline-fecha">Semana 2 — Amplificación</div>
+        <div class="timeline-card">
+          <h3>Bots y cuentas coordinadas replican el contenido</h3>
+          <p>Herramientas de análisis de redes detectan un patrón inusual: más de 40 cuentas publicaron el mismo contenido en un intervalo de 3 horas. Varios perfiles fueron creados pocas semanas antes de las elecciones, lo que sugiere coordinación artificial.</p>
+          <div class="timeline-tags">
+            <span class="tag tag-rojo">Bots detectados</span>
+            <span class="tag tag-amarillo">Cuentas coordinadas</span>
+            <span class="tag tag-azul">Análisis de red</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot dot-rojo"></div>
+        <div class="timeline-fecha">Semana 2 — Escalada</div>
+        <div class="timeline-card">
+          <h3>Aparecen videos con figuras reconocibles sin verificar</h3>
+          <p>Se difunden clips en los que aparentemente figuras públicas hacen afirmaciones comprometedoras. La búsqueda inversa de fotogramas revela que los videos fueron generados o manipulados con herramientas de IA. Ninguno de los involucrados ha publicado ese contenido en sus canales oficiales.</p>
+          <div class="timeline-tags">
+            <span class="tag tag-rojo">Posible deepfake</span>
+            <span class="tag tag-amarillo">IA generativa</span>
+            <span class="tag tag-azul">Búsqueda inversa</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot dot-azul"></div>
+        <div class="timeline-fecha">Semana 3 — Reacción política</div>
+        <div class="timeline-card">
+          <h3>Candidatos y medios toman posición sin verificar</h3>
+          <p>Ante la presión del debate público, varios actores políticos emiten declaraciones usando el material como referencia. Algunos medios reproducen el contenido sin proceso de verificación previo, amplificando la narrativa sin contexto suficiente.</p>
+          <div class="timeline-tags">
+            <span class="tag tag-amarillo">Reacción política</span>
+            <span class="tag tag-rojo">Difusión sin verificar</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot dot-gris"></div>
+        <div class="timeline-fecha">Semana 4 — Investigación</div>
+        <div class="timeline-card">
+          <h3>Re-Construyendo inicia proceso formal de verificación</h3>
+          <p>Nuestro equipo activa el protocolo de verificación de datos. Se establecen cuatro pasos metodológicos para rastrear el origen del contenido, identificar la narrativa y reconstruir los hechos de forma cronológica y verificable.</p>
+          <div class="timeline-tags">
+            <span class="tag tag-verde">Verificación activa</span>
+            <span class="tag tag-azul">Proceso metodológico</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot dot-amarillo"></div>
+        <div class="timeline-fecha">Semana 5 — Hallazgos</div>
+        <div class="timeline-card">
+          <h3>No se encontró evidencia que respalde las afirmaciones</h3>
+          <p>Tras aplicar los métodos de verificación —búsqueda inversa, análisis de metadatos, contraste con fuentes oficiales y detección de IA— no se encontró ninguna evidencia que respalde las afirmaciones contenidas en el "caso Júpiter". El material fue clasificado como información falsa con intención de influir en el debate electoral.</p>
+          <div class="timeline-tags">
+            <span class="tag tag-rojo">Información falsa</span>
+            <span class="tag tag-verde">Caso cerrado</span>
+            <span class="tag tag-amarillo">Veredicto emitido</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN: CANALES -->
+  <div class="section-divider">
+    <h2>02 — Canales de difusión</h2>
+    <div class="line"></div>
+  </div>
+
+  <section class="canales-section">
+    <div class="canales-grid" id="canalesGrid">
+      <div class="canal-card">
+        <div class="canal-icon">💬</div>
+        <div class="canal-nombre">WhatsApp</div>
+        <div class="canal-tipo">Mensajería privada</div>
+        <div class="canal-bar-wrap">
+          <div class="canal-bar bar-rojo" style="width:0%" data-target="78%"></div>
+        </div>
+        <div class="canal-pct">78% del contenido inicial</div>
+      </div>
+      <div class="canal-card">
+        <div class="canal-icon">🐦</div>
+        <div class="canal-nombre">X / Twitter</div>
+        <div class="canal-tipo">Red social pública</div>
+        <div class="canal-bar-wrap">
+          <div class="canal-bar bar-amarillo" style="width:0%" data-target="65%"></div>
+        </div>
+        <div class="canal-pct">65% amplificación bots</div>
+      </div>
+      <div class="canal-card">
+        <div class="canal-icon">📸</div>
+        <div class="canal-nombre">Instagram</div>
+        <div class="canal-tipo">Red social visual</div>
+        <div class="canal-bar-wrap">
+          <div class="canal-bar bar-azul" style="width:0%" data-target="45%"></div>
+        </div>
+        <div class="canal-pct">45% difusión secundaria</div>
+      </div>
+      <div class="canal-card">
+        <div class="canal-icon">▶️</div>
+        <div class="canal-nombre">Telegram</div>
+        <div class="canal-tipo">Canales abiertos</div>
+        <div class="canal-bar-wrap">
+          <div class="canal-bar bar-rojo" style="width:0%" data-target="38%"></div>
+        </div>
+        <div class="canal-pct">38% distribución videos</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN: CUENTAS -->
+  <div class="section-divider">
+    <h2>03 — Perfil de cuentas difusoras</h2>
+    <div class="line"></div>
+  </div>
+
+  <section class="cuentas-section">
+    <div class="cuentas-grid">
+      <div>
+        <div class="cuenta-row">
+          <div class="cuenta-info">
+            <div class="cuenta-nombre">@noticias_ciudadanas_col</div>
+            <div class="cuenta-detalle">Creada 3 semanas antes · Sin historial</div>
+          </div>
+          <div class="cuenta-bar-wrap">
+            <div class="cuenta-bar-fill bar-rojo" style="width:0%" data-target="90%"></div>
+          </div>
+          <div class="cuenta-num">+4.2k RT</div>
+        </div>
+        <div class="cuenta-row">
+          <div class="cuenta-info">
+            <div class="cuenta-nombre">@informa_ya_2026</div>
+            <div class="cuenta-detalle">Patrón automatizado · 200+ posts/día</div>
+          </div>
+          <div class="cuenta-bar-wrap">
+            <div class="cuenta-bar-fill bar-amarillo" style="width:0%" data-target="75%"></div>
+          </div>
+          <div class="cuenta-num">+3.8k RT</div>
+        </div>
+        <div class="cuenta-row">
+          <div class="cuenta-info">
+            <div class="cuenta-nombre">@verdad_electoral_co</div>
+            <div class="cuenta-detalle">Sin foto real · Ubicación falsa</div>
+          </div>
+          <div class="cuenta-bar-wrap">
+            <div class="cuenta-bar-fill bar-azul" style="width:0%" data-target="60%"></div>
+          </div>
+          <div class="cuenta-num">+2.1k RT</div>
+        </div>
+        <div class="cuenta-row">
+          <div class="cuenta-info">
+            <div class="cuenta-nombre">@alertas_politicas</div>
+            <div class="cuenta-detalle">Red coordinada · 18 cuentas similares</div>
+          </div>
+          <div class="cuenta-bar-wrap">
+            <div class="cuenta-bar-fill bar-rojo" style="width:0%" data-target="55%"></div>
+          </div>
+          <div class="cuenta-num">+1.9k RT</div>
+        </div>
+        <div class="cuenta-row">
+          <div class="cuenta-info">
+            <div class="cuenta-nombre">@noticias_hoy_real</div>
+            <div class="cuenta-detalle">Duplicado de cuenta legítima</div>
+          </div>
+          <div class="cuenta-bar-wrap">
+            <div class="cuenta-bar-fill bar-amarillo" style="width:0%" data-target="40%"></div>
+          </div>
+          <div class="cuenta-num">+980 RT</div>
+        </div>
+      </div>
+
+      <div class="cuentas-info-panel">
+        <h3>Datos del análisis de red</h3>
+        <div class="stat-box">
+          <div class="stat-item">
+            <span class="stat-num">43</span>
+            <span class="stat-label">Cuentas coordinadas</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">3h</span>
+            <span class="stat-label">Intervalo de publicación</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">92%</span>
+            <span class="stat-label">Cuentas nuevas</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">0</span>
+            <span class="stat-label">Fuentes verificadas</span>
+          </div>
+        </div>
+        <p class="nota-verificacion">
+          Mediante análisis de metadatos y comparación de patrones de publicación, se identificó que <strong>las 43 cuentas actuaron de forma sincronizada</strong>, publicando el mismo contenido con variaciones menores en un lapso de 3 horas. Ninguna cuenta presentó historial editorial previo ni identidad verificable.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN: COMUNICADOS -->
+  <div class="section-divider">
+    <h2>04 — Comunicados oficiales</h2>
+    <div class="line"></div>
+  </div>
+
+  <section class="comunicados-section">
+    <div class="comunicados-grid">
+      <div class="comunicado-card">
+        <div class="comunicado-actor">Candidato A</div>
+        <div class="comunicado-estado">
+          <span class="estado-dot dot-ambiguo"></span>
+          <span style="color:var(--amarillo)">Declaración ambigua</span>
+        </div>
+        <p class="comunicado-desc">Hizo referencia al "caso" sin confirmar ni desmentir la información. Usó la narrativa a su conveniencia en un discurso de campaña.</p>
+      </div>
+      <div class="comunicado-card">
+        <div class="comunicado-actor">Candidato B</div>
+        <div class="comunicado-estado">
+          <span class="estado-dot dot-positivo"></span>
+          <span style="color:#7ad095">Llamado a verificar</span>
+        </div>
+        <p class="comunicado-desc">Instó a la ciudadanía a informarse por fuentes confiables, sin avalar ni rechazar el contenido viral directamente.</p>
+      </div>
+      <div class="comunicado-card">
+        <div class="comunicado-actor">Registraduría</div>
+        <div class="comunicado-estado">
+          <span class="estado-dot dot-negativo"></span>
+          <span style="color:#f08080">Sin pronunciamiento</span>
+        </div>
+        <p class="comunicado-desc">No emitió comunicado oficial sobre el caso durante las primeras semanas de circulación del contenido.</p>
+      </div>
+      <div class="comunicado-card">
+        <div class="comunicado-actor">Plataformas digitales</div>
+        <div class="comunicado-estado">
+          <span class="estado-dot dot-ambiguo"></span>
+          <span style="color:var(--amarillo)">Acción parcial</span>
+        </div>
+        <p class="comunicado-desc">Algunas publicaciones fueron marcadas con etiquetas de "información disputada" pero no fueron eliminadas de las plataformas.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN: VERIFICACIÓN -->
+  <div class="section-divider" id="verificacion">
+    <h2>05 — Proceso de verificación</h2>
+    <div class="line"></div>
+  </div>
+
+  <section class="verificacion-section">
+    <div class="pasos-grid">
+      <div class="paso-card paso-1">
+        <div class="paso-numero">1</div>
+        <div class="paso-label">Paso 1</div>
+        <h3>Identificación de publicaciones virales</h3>
+        <p>Se rastrearon las publicaciones que estaban alterando el debate público, documentando su alcance, velocidad de difusión y los grupos sociales que las recibían.</p>
+        <div class="herramientas">
+          <span class="herramienta">CrowdTangle</span>
+          <span class="herramienta">BuzzSumo</span>
+          <span class="herramienta">TweetDeck</span>
+        </div>
+      </div>
+      <div class="paso-card paso-2">
+        <div class="paso-numero">2</div>
+        <div class="paso-label">Paso 2</div>
+        <h3>Búsqueda de la fuente original</h3>
+        <p>Se aplicaron búsquedas inversas de imágenes y videos, búsqueda avanzada en plataformas y análisis de metadatos con herramientas de IA para rastrear el origen del material.</p>
+        <div class="herramientas">
+          <span class="herramienta">Google Lens</span>
+          <span class="herramienta">InVID</span>
+          <span class="herramienta">TinEye</span>
+          <span class="herramienta">Hive Moderation</span>
+        </div>
+      </div>
+      <div class="paso-card paso-3">
+        <div class="paso-numero">3</div>
+        <div class="paso-label">Paso 3</div>
+        <h3>Identificación de la narrativa</h3>
+        <p>Se analizó a qué público apuntaba el contenido, qué tonos emocionales utilizaba, qué actores se veían beneficiados o afectados y qué objetivo perseguía la narrativa.</p>
+        <div class="herramientas">
+          <span class="herramienta">Análisis discursivo</span>
+          <span class="herramienta">Mapeo actores</span>
+          <span class="herramienta">Tono emocional</span>
+        </div>
+      </div>
+      <div class="paso-card paso-4">
+        <div class="paso-numero">4</div>
+        <div class="paso-label">Paso 4</div>
+        <h3>Reconstrucción de hechos</h3>
+        <p>Se elaboró una nota y cápsula informativa explicando el hecho de forma cronológica, citando fuentes verificadas y dejando constancia del proceso de investigación.</p>
+        <div class="herramientas">
+          <span class="herramienta">Fuentes primarias</span>
+          <span class="herramienta">Contraste editorial</span>
+          <span class="herramienta">Nota verificada</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VEREDICTO -->
+  <div class="section-divider">
+    <h2>06 — Veredicto de verificación</h2>
+    <div class="line"></div>
+  </div>
+
+  <section class="veredicto-section" style="padding-top:2rem; padding-bottom:4rem;">
+    <div class="veredicto-box">
+      <div class="veredicto-badge">
+        <span>Veredicto</span>
+        FALSO
+      </div>
+      <div class="veredicto-text">
+        <h3>El "caso Júpiter" no tiene respaldo en fuentes verificables</h3>
+        <p>Tras aplicar los cuatro pasos del protocolo de verificación, nuestro equipo concluye que el material difundido bajo el nombre "caso Júpiter" no cuenta con ninguna evidencia que lo respalde. Los videos presentan anomalías compatibles con manipulación mediante IA, las cuentas difusoras son artificiales y ningún actor oficial confirmó las afirmaciones. Se trató de una operación coordinada de desinformación con intención de influir en el debate electoral.</p>
+        <div class="evidencias">
+          <span class="evidencia">Videos manipulados con IA</span>
+          <span class="evidencia">Cuentas coordinadas artificiales</span>
+          <span class="evidencia">Sin fuente original verificable</span>
+          <span class="evidencia">Narrativa polarizante diseñada</span>
+          <span class="evidencia">Sin comunicados oficiales</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GLOSARIO -->
+  <div class="section-divider" id="glosario">
+    <h2>07 — Glosario de términos clave</h2>
+    <div class="line"></div>
+  </div>
+
+  <section class="glosario-section">
+    <div class="glosario-grid">
+      <div class="glosario-item">
+        <div class="glosario-term">Deepfake</div>
+        <p class="glosario-def">Video, audio o imagen generado o manipulado mediante inteligencia artificial para hacer parecer que una persona dijo o hizo algo que nunca ocurrió. Su detección requiere análisis de metadatos y herramientas especializadas.</p>
+      </div>
+      <div class="glosario-item">
+        <div class="glosario-term">Bot / Cuenta coordinada</div>
+        <p class="glosario-def">Perfil automatizado o controlado de forma centralizada para amplificar contenidos de manera masiva y simultánea. Se detectan por patrones de publicación anómalos, fechas de creación recientes y ausencia de identidad verificable.</p>
+      </div>
+      <div class="glosario-item">
+        <div class="glosario-term">Desinformación</div>
+        <p class="glosario-def">Información falsa o engañosa difundida con intención deliberada de causar daño, manipular la opinión pública o beneficiar a actores concretos. Difiere de la "misinformación", que se difunde sin intención maliciosa.</p>
+      </div>
+      <div class="glosario-item">
+        <div class="glosario-term">Búsqueda inversa</div>
+        <p class="glosario-def">Técnica periodística que permite rastrear el origen de imágenes y videos mediante herramientas como Google Lens, TinEye o InVID, identificando si el material fue tomado de otro contexto o fecha diferente.</p>
+      </div>
+      <div class="glosario-item">
+        <div class="glosario-term">Operación de influencia</div>
+        <p class="glosario-def">Campaña coordinada y planificada que utiliza medios digitales, redes sociales y agentes humanos o automatizados para alterar la percepción pública sobre un tema, persona o evento político.</p>
+      </div>
+      <div class="glosario-item">
+        <div class="glosario-term">Metadatos</div>
+        <p class="glosario-def">Información incrustada en archivos digitales (fotos, videos, documentos) que revela datos sobre su creación: fecha, dispositivo, ubicación geográfica y software utilizado. Son clave para verificar la autenticidad de contenidos.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECURSOS -->
+  <div class="section-divider">
+    <h2>08 — Recursos para verificar</h2>
+    <div class="line"></div>
+  </div>
+
+  <section class="recursos-section">
+    <div class="recursos-grid">
+      <a class="recurso-card" href="https://lens.google.com" target="_blank" rel="noopener">
+        <div class="recurso-tipo">Búsqueda inversa · Imágenes</div>
+        <div class="recurso-nombre">Google Lens</div>
+        <p class="recurso-desc">Busca el origen de cualquier imagen. Úsalo para saber si una foto fue tomada de otro contexto o fecha diferente a la publicada.</p>
+      </a>
+      <a class="recurso-card" href="https://www.invid-project.eu/tools-and-services/invid-verification-plugin/" target="_blank" rel="noopener">
+        <div class="recurso-tipo">Verificación · Videos</div>
+        <div class="recurso-nombre">InVID / WeVerify</div>
+        <p class="recurso-desc">Plugin gratuito para verificar videos en redes sociales. Analiza fotogramas, metadatos y busca otras apariciones del material.</p>
+      </a>
+      <a class="recurso-card" href="https://www.tineye.com" target="_blank" rel="noopener">
+        <div class="recurso-tipo">Búsqueda inversa · Imágenes</div>
+        <div class="recurso-nombre">TinEye</div>
+        <p class="recurso-desc">Motor especializado en búsqueda inversa de imágenes. Muestra todas las apariciones previas de una foto en la web con su fecha exacta.</p>
+      </a>
+      <a class="recurso-card" href="https://hivemoderation.com/ai-generated-content-detection" target="_blank" rel="noopener">
+        <div class="recurso-tipo">Detección · IA generativa</div>
+        <div class="recurso-nombre">Hive Moderation</div>
+        <p class="recurso-desc">Detecta si imágenes o videos fueron generados por inteligencia artificial. Herramienta clave para identificar deepfakes y contenido sintético.</p>
+      </a>
+      <a class="recurso-card" href="https://www.colombiacheck.com" target="_blank" rel="noopener">
+        <div class="recurso-tipo">Fact-checking · Colombia</div>
+        <div class="recurso-nombre">ColombiaCheck</div>
+        <p class="recurso-desc">Plataforma colombiana de verificación de datos y fact-checking. Primer portal de este tipo en el país, miembro de la red IFCN.</p>
+      </a>
+      <a class="recurso-card" href="https://chequeado.com" target="_blank" rel="noopener">
+        <div class="recurso-tipo">Fact-checking · América Latina</div>
+        <div class="recurso-nombre">Chequeado</div>
+        <p class="recurso-desc">Referente latinoamericano en verificación de datos políticos y electorales. Ofrece metodología abierta y recursos de formación en periodismo de datos.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- ARTÍCULO -->
+  <section class="articulo-section" id="articulo">
+    <div class="articulo-inner">
+      <div class="articulo-eyebrow">Artículo de verificación</div>
+      <h2>Cómo una red de bots fabricó el "caso Júpiter" para manipular las elecciones</h2>
+      <p class="bajada">
+        Lo que empezó como un rumor en grupos de WhatsApp se convirtió en el tema dominante del debate preelectoral. Esta es la historia de cómo lo verificamos y por qué importa.
+      </p>
+      <div class="articulo-meta">
+        <div class="avatar">RC</div>
+        <div class="articulo-meta-text">
+          <strong>Unidad de Verificación</strong>
+          <span>Re-Construyendo · Mayo 2026</span>
+        </div>
+      </div>
+      <div class="articulo-cuerpo">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum et dolorum magna.
+        </p>
+        <div class="pull-quote">
+          <p>"Las cuentas actuaron en sincronía durante apenas tres horas, suficiente para inundar el ecosistema informativo antes de que cualquier medio pudiera reaccionar."</p>
+        </div>
+        <p>
+          Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum.
+        </p>
+        <p>
+          Cras ornare tristique elit. Vivamus vestibulum ntulla nec ante. Praesent placerat risus quis eros. Fusce pellentesque suscipit nibh. Integer vitae libero ac risus egestas placerat. Nullam sit amet enim. Suspendisse id velit vitae ligula volutpat condimentum. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus. Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus.
+        </p>
+        <p>
+          Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi. Nullam in enim. Pellentesque felis orci, sagittis ac, malesuada et, facilisis in, ligula. Nunc non enim ac dui volutpat laoreet. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi. Vivamus vestibulum ntulla nec ante. Praesent placerat risus quis eros. Fusce pellentesque suscipit nibh. Integer vitae libero ac risus egestas placerat. Nullam sit amet enim.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-marca">
+      <strong>Re·Construyendo</strong><br/>
+      Periodismo de verificación · 2026
+    </div>
+    <div class="footer-links">
+      <a href="#">Inicio</a>
+      <a href="#expediente">Expediente</a>
+      <a href="#verificacion">Metodología</a>
+      <a href="#glosario">Glosario</a>
+      <a href="#">Contacto</a>
+      <a href="#">Política editorial</a>
+    </div>
+  </footer>
+
+  <!-- WHATSAPP FAB -->
+  <div class="whatsapp-fab">
+    <span class="whatsapp-tooltip">Únete a nuestra comunidad</span>
+    <a href="https://chat.whatsapp.com/" target="_blank" rel="noopener" class="whatsapp-btn" title="Únete a nuestra comunidad en WhatsApp">
+      <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 2C8.28 2 2 8.28 2 16c0 2.44.65 4.73 1.78 6.71L2 30l7.5-1.75A13.94 13.94 0 0 0 16 30c7.72 0 14-6.28 14-14S23.72 2 16 2zm0 25.5a11.45 11.45 0 0 1-5.85-1.6l-.42-.25-4.45 1.04 1.07-4.33-.28-.44A11.47 11.47 0 0 1 4.5 16C4.5 9.6 9.6 4.5 16 4.5S27.5 9.6 27.5 16 22.4 27.5 16 27.5zm6.3-8.57c-.35-.17-2.05-1.01-2.36-1.13-.32-.11-.55-.17-.78.18s-.9 1.13-1.1 1.36c-.2.23-.4.26-.75.09-.35-.17-1.47-.54-2.8-1.73-1.03-.92-1.73-2.06-1.93-2.41-.2-.35-.02-.54.15-.71.15-.15.35-.4.52-.6.17-.2.23-.35.35-.58.11-.23.06-.43-.03-.6s-.78-1.88-1.07-2.57c-.28-.68-.57-.59-.78-.6l-.67-.01c-.23 0-.6.09-.92.43-.31.35-1.2 1.17-1.2 2.85s1.23 3.3 1.4 3.53c.17.23 2.42 3.7 5.86 5.19.82.35 1.46.56 1.96.72.82.26 1.57.22 2.16.13.66-.1 2.05-.84 2.34-1.65.29-.81.29-1.5.2-1.65-.09-.14-.32-.23-.67-.4z"/>
+      </svg>
+    </a>
+  </div>
+
+  <script>
+    /* ===== NAV HAMBURGER ===== */
+    function toggleMenu() {
+      document.getElementById('navLinks').classList.toggle('open');
+    }
+
+    /* ===== EXPEDIENTE: DATOS DE PISTAS ===== */
+    var phases = [
+      {
+        time: "T + 0h",
+        title: "El origen",
+        subtitle: "Filtración anónima en red social",
+        tag: "Hora cero",
+        type: "warning",
+        content: "Una cuenta sin identificar publica en X un hilo con supuestas capturas de documentos internos que describen una iniciativa tecnol\u00F3gica para optimizar la influencia narrativa en procesos electorales."
+      },
+      {
+        time: "T + 1 – 3h",
+        title: "Fase de amplificación",
+        subtitle: "Automatización coordinada detectada",
+        tag: "Amplificación",
+        type: "warning",
+        content: "El tema crece exponencialmente. Se detectan publicaciones idénticas en intervalos cortos, cuentas de reciente creación y uso intensivo de hashtags políticos — indicadores de posible coordinación automatizada."
+      },
+      {
+        time: "T + 4h",
+        title: "El punto de quiebre",
+        subtitle: "Video de autenticidad no confirmada",
+        tag: "Material crítico",
+        type: "danger",
+        content: "Circula un video de alta calidad técnica mostrando a una figura pública reconociendo el proyecto como real. Expertos advierten que podría ser un deepfake, pero su autenticidad no puede ser confirmada de inmediato."
+      },
+      {
+        time: "T + 12h",
+        title: "Consolidación como tendencia",
+        subtitle: "Agenda nacional capturada",
+        tag: "Escalada máxima",
+        type: "danger",
+        content: "Proyecto J\u00FApiter se convierte en tendencia nacional. La conversaci\u00F3n se vuelve altamente emocional: usuarios exigen respuestas a instituciones y medios de comunicaci\u00F3n sin esperar verificaci\u00F3n."
+      },
+      {
+        time: "T + 8 – 20h",
+        title: "Reacción política y mediática",
+        subtitle: "Narrativas partidistas en conflicto",
+        tag: "Institucional",
+        type: "neutral",
+        content: "Actores políticos reaccionan con denuncias o descalificaciones, adaptando la filtración a sus propias narrativas. Los medios se dividen: algunos publican notas rápidas mientras otros mantienen cautela ante la falta de verificación."
+      },
+      {
+        time: "T + 24h",
+        title: "Estado actual",
+        subtitle: "Sin confirmación oficial",
+        tag: "Sin resolver",
+        type: "success",
+        content: "El tema está plenamente instalado en la agenda pública generando polarización y desconfianza informativa. No existe confirmación oficial sobre la existencia real del proyecto ni claridad sobre el origen de los contenidos."
+      }
+    ];
+
+    var revealed = 0;
+
+    function revealNext() {
+      if (revealed >= phases.length) return;
+      var p = phases[revealed];
+      var container = document.getElementById('phases-container');
+      document.getElementById('empty-state').style.display = 'none';
+
+      var card = document.createElement('div');
+      card.className = 'phase-card ' + p.type;
+      card.innerHTML =
+        '<div class="phase-header">' +
+          '<span class="phase-time">' + p.time + '</span>' +
+          '<span class="phase-tag ' + p.type + '">' + p.tag + '</span>' +
+        '</div>' +
+        '<p class="phase-title">' + p.title + '</p>' +
+        '<p class="phase-subtitle">' + p.subtitle + '</p>' +
+        '<p class="phase-content">' + p.content + '</p>';
+
+      container.appendChild(card);
+      revealed++;
+
+      document.getElementById('counter').textContent = revealed;
+      document.getElementById('progress-bar').style.width = Math.round((revealed / phases.length) * 100) + '%';
+
+      if (revealed >= phases.length) {
+        var btn = document.getElementById('reveal-btn');
+        btn.disabled = true;
+        btn.textContent = '✓  Expediente completo';
+        document.getElementById('verdict-exp').style.display = 'block';
+        setTimeout(function () {
+          document.getElementById('contact-form').style.display = 'block';
+          document.getElementById('contact-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 900);
+      }
+    }
+
+    function handleSubmit() {
+      var email = document.getElementById('field-email').value.trim();
+      var phone = document.getElementById('field-phone').value.trim();
+      if (!email && !phone) {
+        alert('Ingresa un correo electrónico o número de teléfono para continuar.');
+        return;
+      }
+      /*
+       * ── CONECTAR CON TU BACKEND ────────────────────────────────
+       * fetch('https://TU-API.com/notificaciones', {
+       *   method: 'POST',
+       *   headers: { 'Content-Type': 'application/json' },
+       *   body: JSON.stringify({ email, phone })
+       * });
+       * ─────────────────────────────────────────────────────────── */
+      document.getElementById('contact-form').style.display = 'none';
+      document.getElementById('success-state').style.display = 'block';
+    }
+
+    /* ===== TIMELINE SCROLL ANIMATION ===== */
+    const items = document.querySelectorAll('.timeline-item');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => { entry.target.classList.add('visible'); }, i * 120);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    items.forEach(item => observer.observe(item));
+
+    /* ===== BAR ANIMATIONS ===== */
+    const barObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const bars = entry.target.querySelectorAll('[data-target]');
+          bars.forEach(bar => {
+            setTimeout(() => { bar.style.width = bar.dataset.target; }, 300);
+          });
+          barObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    const canalesGrid = document.getElementById('canalesGrid');
+    if (canalesGrid) barObserver.observe(canalesGrid);
+    const cuentasSection = document.querySelector('.cuentas-section');
+    if (cuentasSection) barObserver.observe(cuentasSection);
+  </script>
+</body>
+</html>
